@@ -6,6 +6,9 @@ import {
   getCoreRowModel,
   flexRender,
   ColumnDef,
+  OnChangeFn,
+  PaginationState as TanstackPaginationState,
+  SortingState as TanstackSortingState,
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useInventoryStore } from '@/store/inventoryStore';
@@ -103,8 +106,8 @@ export const DataTable = React.memo(() => {
     []
   );
 
-  const handlePaginationChange = useCallback(
-    (updater: any) => {
+  const handlePaginationChange = useCallback<OnChangeFn<TanstackPaginationState>>(
+    (updater) => {
       if (typeof updater === 'function') {
         setPagination(updater);
       } else {
@@ -114,8 +117,8 @@ export const DataTable = React.memo(() => {
     [setPagination]
   );
 
-  const handleSortingChange = useCallback(
-    (updater: any) => {
+  const handleSortingChange = useCallback<OnChangeFn<TanstackSortingState>>(
+    (updater) => {
       if (typeof updater === 'function') {
         const newSorting = updater([{ id: sorting.id, desc: sorting.desc }]);
         if (newSorting.length > 0) {
